@@ -1,7 +1,5 @@
 package cn.itcast.article.po;
 
-import jdk.nashorn.internal.objects.annotations.Getter;
-import jdk.nashorn.internal.objects.annotations.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -14,20 +12,22 @@ import java.util.Date;
 
 /**
  * 文章评论实体类
- * 把一个Java类声明为mongodb的文档，可以通过collection参数指定这个类对应的文档
- * @Document(collection="mongodb"对应的collection名)
- * 复合索引
- * @CompoundIndex( def = "{'userid': 1, 'nickname': -1}")
+ */
+
+/**
+ * 把一个Java类声明为mongodb的文档(collection，对应mysql的表）
+ *
+ * @Document(collection="mongodb对应的collection名")
  */
 @Document(collection = "comment") //可以省略，如果省略，则默认使用类名小写映射集合
-@CompoundIndex( def = "{'userid': 1, 'nickname': -1}")
+//@CompoundIndex(def = "{'userid': 1, 'nickname': -1}") //复合索引
 public class Comment implements Serializable {
     //主键标识，该属性的值会自动对应mongodb的主键字段“_id”，
     //如果该属性名就叫做“id”，则该注解可以省略，否则必须写
     @Id
     private String id; //主键
 
-    @Field("content")
+    @Field("content") //该属性对应mongodb的字段的名字，如果一致，则无需该注解
     private String content; //吐槽内容
 
     private Date publishTime; //发布日志
@@ -49,7 +49,7 @@ public class Comment implements Serializable {
     private String parentId; //上级ID
 
     private String articleId;
-    
+
     //getter and setter.....
     public String getId() {
         return id;
