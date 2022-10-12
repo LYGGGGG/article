@@ -8,6 +8,8 @@ package cn.itcast.article.service;
 import cn.itcast.article.dao.CommentRepository;
 import cn.itcast.article.po.Comment;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -60,5 +62,13 @@ public class CommentService {
      */
     public Comment findCommentById(String id){
         return commentRepository.findById(id).get();
+    }
+
+    /**
+     * 根据父id查询分页列表
+     */
+    public Page<Comment> findCommentListByParentid(String parentId, int page, int size) {
+        //page-1:第0页
+        return commentRepository.findByParentId(parentId, PageRequest.of(page-1,size));
     }
 }

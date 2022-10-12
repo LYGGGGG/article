@@ -34,20 +34,22 @@ public class Comment implements Serializable {
 
     //添加一个单字段的索引
     @Indexed
+    @Field("userid")
     private String userId; //发布人ID
-
+    @Field("nickname")
     private String nickName; //昵称
-
+    @Field("createdatetime")
     private LocalDateTime createDateTime; //评论的日期时间
-
+    @Field("likenum")
     private Integer likeNum; //点赞数
-
+    @Field("replynum")
     private Integer replyNum; //回复数
 
     private String state; //状态
-
+    @Field("parentid")
     private String parentId; //上级ID
 
+    @Field("articleid")
     private String articleId;
 
     //getter and setter.....
