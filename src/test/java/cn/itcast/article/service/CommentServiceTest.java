@@ -65,4 +65,9 @@ public class CommentServiceTest {
         System.out.println(page.getTotalElements());
         System.out.println(page.getContent());
     }
+
+    @Test
+    public void testUpdateCommentLikenum(){
+        commentService.updateCommentLikeNum("4");
+    }
 }

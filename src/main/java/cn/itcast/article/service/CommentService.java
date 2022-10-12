@@ -10,6 +10,10 @@ import cn.itcast.article.po.Comment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,6 +22,9 @@ import java.util.List;
 public class CommentService {
     @Autowired
     private CommentRepository commentRepository;
+
+    @Autowired
+    private MongoTemplate mongoTemplate;
 
     /**
      * 保存一个评论
@@ -70,5 +77,15 @@ public class CommentService {
     public Page<Comment> findCommentListByParentid(String parentId, int page, int size) {
         //page-1:第0页
         return commentRepository.findByParentId(parentId, PageRequest.of(page-1,size));
+    }
+
+    public void updateCommentLikeNum(String id){
+        //查询条件
+        Query query = new Query(Criteria.where("_id").is(id));
+        //更新条件
+        Update update = new Update();
+        update.inc("likenum");
+
+        mongoTemplate.updateFirst(query,update,Comment.class);
     }
 }
